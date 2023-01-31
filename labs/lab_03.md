@@ -129,10 +129,10 @@ vagrant_backend | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
-
 ```
 
 You can also run the module `setup` get hosts informations:
 
 ```bash
 ansible --vault-password-file=.vault_pass all -i inventories/dev -m setup
+```
