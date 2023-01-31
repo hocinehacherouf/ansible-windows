@@ -14,7 +14,7 @@ Install cygwin and cyg-get using Chocolaty:
 choco install cygwin cyg-get -y
 ```
 
-Install ansible requirements (on) using cyg-get:
+Install ansible requirements using cyg-get:
 
 ```powershell
 cyg-get openssh python38 python38-pip python38-devel libssl-devel libffi-devel gcc-g++ python38-cryptography
