@@ -76,7 +76,7 @@ ansible_winrm_server_cert_validation: ignore
 EOF
 ```
 
-Create the file `inventories/dev/group_vars/vagrant_backend.yml`:
+Create the file `inventories/dev/host_vars/vagrant_backend.yml`:
 
 ```bash
 mkdir -p inventories/dev/host_vars
