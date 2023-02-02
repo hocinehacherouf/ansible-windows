@@ -366,6 +366,17 @@ collections:
 
 ---
 
+### Ansible Lint
+
+- Ansible Lint is a command-line tool for linting playbooks, roles and collections
+- Promotes best pratices
+- Helps you to upgrade your code to work with newer versions of Ansible
+- Automated lint on pull requests checks (ci pipelines)
+
+:information_source: VSCode extension for Ansible (for windows users 👉 `WSL is required`)
+
+---
+
 ### Usage of tags
 
 If you have a large playbook, it may be useful to run/skip only specific parts of it instead of running the entire playbook. You can do this with Ansible tags:
@@ -409,11 +420,11 @@ ansbile-playbook deploy.yml --skip-tags "patching"
 - Tests are done by Molecule on disposable environements using drivers (supported by ansible): docker, vagrant...
 - The usage of molecule is not only for local testing, it can/must be used on continuous integration pipelines.
 
----
+<!-- ---
 
 ### Molecule Live Demo
 
-![bg right 60%](https://repository-images.githubusercontent.com/216770803/aa9e2d00-f4bd-11e9-9149-3765c7f2d2a2)
+![bg right 60%](https://repository-images.githubusercontent.com/216770803/aa9e2d00-f4bd-11e9-9149-3765c7f2d2a2) -->
 
 ---
 
