@@ -85,7 +85,7 @@ ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev
 - Download the image from `http://www.example.com/earthrise.jpg` and store it to the path `C:\Temp\MyApp\earthrise.jpg`
 - Find files in the path `C:\Temp\MyApp` and where extension is `.config`
 - Delete file with path `C:\Temp\MyApp\Service1.config`
-- Create the directory with path `C:\Temp\MyApp`
+- Delete the directory with path `C:\Temp\MyApp`
 - Create a group `MyGroup`
 - Create a user `MyUser` within the group `MyGroup`
 - Delete the user `MyUser`
@@ -94,5 +94,5 @@ ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev
 
 Same exercice, but we will use the modules of [Chocolatey.Chocolatey](https://docs.ansible.com/ansible/latest/collections/chocolatey/chocolatey)
 
-- Install a chocolaty package `7zip`
-- Uninstall the chocolaty `7zip`
+- Install a chocolatey package `7zip`
+- Uninstall the chocolatey `7zip`
