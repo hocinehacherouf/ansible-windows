@@ -2,7 +2,7 @@
 
 ## Deploy apache-httpd
 
-1) Create a new role named httpd
+1) Create a new role named `httpd`
 
 2) Create a task in this role to install apache-httpd using chocolaty
 
