@@ -86,7 +86,7 @@ Same excercie as previously, but this time we will use a jinja template. Here we
 7) Let's update our html templates to handle conditional f
 
 ```jinja
-{% if welcome_message is 'World' %}
+{% if welcome_message == 'World' %}
     <h1>Hello {{ welcome_message }}</h1>
 {% else %}
     <h1>Goodbye {{ welcome_message }}</h1>
