@@ -33,6 +33,9 @@ jobs:
 
       - name: Build Marp deck
         run: CHROME_PATH=$(node -e "console.log(require('puppeteer').executablePath())") npm run deck
+        env:
+          URL: https://${{ github.event.repository.owner.name }}.github.io/${{ github.event.repository.name }}
+          LANG: en-US
 
       - name: Upload page artifacts
         uses: actions/upload-pages-artifact@v1
