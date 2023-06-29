@@ -91,8 +91,3 @@ ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev
 - Delete the user `MyUser`
 - Delete the group `MyGroup`
 - Install security update with reboot
-
-Same exercice, but we will use the modules of [Chocolatey.Chocolatey](https://docs.ansible.com/ansible/latest/collections/chocolatey/chocolatey)
-
-- Install a chocolatey package `7zip`
-- Uninstall the chocolatey `7zip`

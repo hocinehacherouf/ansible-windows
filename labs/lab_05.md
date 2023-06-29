@@ -1,96 +1,141 @@
-# Deploy a static web app
+# Deploy a static web app on IIS
 
-## Deploy apache-httpd
+## Change index.html of the default IIS application
 
-1) Create a new role named `httpd`
+II is already installed on the vm based on the boxe `gusztavvargadr/iis-windows-server`.
 
-2) Create a task in this role to install apache-httpd using chocolaty
+Open the url http://127.0.0.1:50080 on your browser: You will see the defaut page of IIS.
 
-The package `apache-httpd` should be
+1) Create a new role named `lab05`
 
-- Installed under the path C:\HTTPD
-- Listen to port 8080
+2) Add an html file on the folder files of the role `lab05`, named `default_index.html` with content:
 
-See [https://community.chocolatey.org/packages/apache-httpd](https://community.chocolatey.org/packages/apache-httpd) to see how how to set this
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ansible Lab 5</title>
+    </head>
+    <body>
+        <p>Hello World</p>
+    </body>
+</html>
+```
 
-3) Include this new role your playbook (you can comment/remove previous roles defined in this playbook)
+3) Add a task to copy the `default_index.html` to the remote directory `C:\\inetpub\\wwwroot\\index.html`
 
-4) Run your playbook
+```yml
+- name: "Change default website index.html"
+  ansible.builtin.win_copy:
+    src: index.html
+    dest: "C:\\inetpub\\wwwroot\\index.html"
+```
+
+4) Include this new role your playbook (you can comment/remove previous roles defined in this playbook)
+
+5) Run your playbook
 
 ```bash
 ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev -vvv
 ```
 
-## Allow the port of apache-httpd
+6) Open the url http://127.0.0.1:50080 on your browser: You will see the defaut page of IIS has been updated.
 
-After the deployment, listening to port 8080. This port is not allowed by the firewall of the guest vm.
+## Deploy an IIS application
 
-> Goal: Allow the port 8080 on the firewall of the vm using ansible
+1) Install the collection `community.windows` if it doesn't exist:
 
-To allow a port on the firewall of a windows using ansible, we need to use the module [`win_firewall_rule`](https://docs.ansible.com/ansible/latest/collections/community/windows/win_firewall_rule_module.html#ansible-collections-community-windows-win-firewall-rule-module), included in the ansible collection [`community.windows`](https://docs.ansible.com/ansible/latest/collections/community/windows)
+First run:
 
-1) Install the collection `community.windows`:
+```bash
+ansible-galaxy collection list | grep -i community.windows
+```
+
+If the collection `community.windows` is not installed, run:
 
 ```bash
 ansible-galaxy collection install community.windows
 ```
 
-2) Add a new task in the role httpd that calls the module `win_firewall_rule` to allow the port 8080
+2) Add task to create the folder `c:\\inetpub\\wwwroot\\lab05`
 
-4) Run your playbook
+3) Add an html file on the folder files of the role `lab05`, named `lab05_index.html` with content:
 
-After the execution of your playbook, the firewall
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ansible Lab 5</title>
+    </head>
+    <body>
+        <p>Hello World. This my new page</p>
+    </body>
+</html>
+```
 
-5) Open the url http://127.0.0.1:8080 on your browser: You will see the default html page of apache httpd.
+4) Add a task to copy the `lab05_index.html` to the remote directory `C:\\inetpub\\wwwroot\\lab05\\index.html`
 
-## Replace the default html page of apache httpd with a static html file using ansible
+5) Open the documentation of the collection [`community.windows`](https://docs.ansible.com/ansible/latest/collections/community/windows)
 
-1) Create a new role named static-site
+6) Create a new IIS pool named `lab05iispool` using the module `win_iis_webapppool`
 
-2) Add an html file named index.html within the role static-site, under the folder files
+7) Use the module `win_iis_website` to create a IIS website:
 
-3) Add some contents to this html file (e.g. Hello World)
+- Named `lab05iissite`
+- Linked to the pool `lab05iispool`
+- Listing to the port 8080
+- physical_path must be `c:\\inetpub\\wwwroot\\lab05`
 
-4) Create a task in this role to copy this html file and replace the default html of apache httpd.
+8) Add a new task that calls the module `community.windows.win_firewall_rule` to allow the port 8080
 
-- To copy the file, you can use the module [`win_copy_module`](https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_copy_module.html)
-- The location of the (remote) defautl html page of apache-httpd is `C:\HTTPD\Apache24\htdocs\index.html`
+9) Run your playbook
 
-5) Run your playbook
+10) Open the url http://127.0.0.1:8080 on your browser: You will see your new site.
 
-6) Open the url http://127.0.0.1:8080 on your browser: You will see the content you have added.
-
-## Deploy html file using a jinja template
+## Deploy dynamic html file using jinja
 
 Same excercie as previously, but this time we will use a jinja template. Here we want to inject the value of a variable in the output index.html
 
-1) Comment the task that you previously created to copy the file index.html
+1) Delete the file `lab05_index.html` from files folder.
 
-2) Add a new variable named `welcome_message` with value `World` (in vars folder)
+2) Add a new variable named `welcome_message` with value `World` (in defaults folder)
 
-3) Add a file named `index.html.j2` under the folder templates and with content:
+3) Add a file named `lab05_index.html.j2` under the folder templates and with content:
 
 ```jinja
-<h1>Hello {{ welcome_message }}</h1>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ansible Lab 5</title>
+    </head>
+    <body>
+        <p>Hello {{ welcome_message }}. This my new page</p>
+    </body>
+</html>
 ```
 
-4) Create a task in this role to copy this jinja html template and replace the default html of apache httpd.
-
-- To copy the file, you can use the module [`win_template`](https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_template_module.html)
-- The location of the (remote) defautl html page of apache-httpd is `C:\HTTPD\Apache24\htdocs\index.html`
+4) Update the code of the task that copy the file `lab05_index.html` to use the module `win_template` to copy the template `lab05_index.html.j2` to the remote path `C:\\inetpub\\wwwroot\\lab05\\index.html`
 
 5) Run your playbook
 
 6) Open the url http://127.0.0.1:8080 on your browser: You will see the content you have added.
 
-7) Let's update our html templates to handle conditional f
+7) Let's update our html templates to handle condition on the value of the variable `welcome_message`
 
 ```jinja
-{% if welcome_message == 'World' %}
-    <h1>Hello {{ welcome_message }}</h1>
-{% else %}
-    <h1>Goodbye {{ welcome_message }}</h1>
-{% endif %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ansible Lab 5</title>
+    </head>
+    <body>
+        {% if welcome_message == 'World' %}
+        <p>Hello {{ welcome_message }}. This my new page</p>
+        {% else %}
+        <h1>Goodbye {{ welcome_message }}</h1>
+        {% endif %}
+    </body>
+</html>
 ```
 
 8) Run your playbook by overriding the value of the variable `welcome_message` using the parameter `extra-vars`:
@@ -100,4 +145,3 @@ ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev
 ```
 
 9) Open the url http://127.0.0.1:8080 on your browser: You will see the content you have added.
-

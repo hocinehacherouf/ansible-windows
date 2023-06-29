@@ -14,6 +14,16 @@ Created by Hocine Hacherouf ([@hocinehacherouf](https://github.com/hocinehachero
 
 ---
 
+## Summary
+
+- Ansible Concepts
+- Development with Ansible
+- Best Practices
+- Testing with Molecule 
+- Automation with AWX and CI
+
+---
+
 ## Ansible Concepts
 
 ![bg right 40%](https://upload.wikimedia.org/wikipedia/commons/2/24/Ansible_logo.svg)
@@ -109,7 +119,7 @@ Created by Hocine Hacherouf ([@hocinehacherouf](https://github.com/hocinehachero
 ### Ansible :heart: PowerShell
 
 - Ansible can execute PowerShell commands/files
-  - Ansible required powershell 4.0+ on target hosts
+  - Ansible required powershell 3.0+ and .NET 4.0+ on target hosts
 - Ansible modules for Windows are based on PowerShell 👉 `ansible.windows`
 
 ---
@@ -377,6 +387,23 @@ collections:
 
 ---
 
+### Use Ansible FQCN
+
+- FQCN 👉 Fully Qualified Collection Name
+- Recommended since Ansible 2.10
+
+```yml
+- name: Task not using FQCN
+  win_command: whoami
+```
+
+```yml
+- name: Task using FQCN
+  ansible.windows.win_command: whoami
+```
+
+---
+
 ### Usage of tags
 
 If you have a large playbook, it may be useful to run/skip only specific parts of it instead of running the entire playbook. You can do this with Ansible tags:
@@ -384,7 +411,7 @@ If you have a large playbook, it may be useful to run/skip only specific parts o
 ```yml
 ---
 - name: Install all critical and security updates
-  win_updates:
+  ansible.windows.win_updates:
     category_names:
     - SecurityUpdates
     state: installed
@@ -420,11 +447,17 @@ ansbile-playbook deploy.yml --skip-tags "patching"
 - Tests are done by Molecule on disposable environements using drivers (supported by ansible): docker, vagrant...
 - The usage of molecule is not only for local testing, it can/must be used on continuous integration pipelines.
 
-<!-- ---
+---
 
 ### Molecule Live Demo
 
-![bg right 60%](https://repository-images.githubusercontent.com/216770803/aa9e2d00-f4bd-11e9-9149-3765c7f2d2a2) -->
+![bg right 60%](https://repository-images.githubusercontent.com/216770803/aa9e2d00-f4bd-11e9-9149-3765c7f2d2a2)
+
+---
+
+## Let's play with Molecule
+
+:test_tube: Lab 06
 
 ---
 

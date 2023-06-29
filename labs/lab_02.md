@@ -22,7 +22,7 @@ vagrant up
 
 Remarks:
 
-- Vagrant will download a virtualbox image of a windows-server-core
+- Vagrant will download a virtualbox image of a windows-server with IIS
 - Then it will run it under virtualbox
 
-Now you have a windows-server-core vm ready to be used by ansible :clap:
+Now you have a windows-server vm ready to be used by ansible :clap:
