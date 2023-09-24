@@ -1,6 +1,6 @@
 # Create an ansible inventory with secrets
 
-> Open WSL terminal
+> Open Cygwin terminal
 
 ## Init git repository
 
@@ -13,13 +13,6 @@ mkdir my-awesome-ansible-projet
 cd my-awesome-ansible-projet
 git init
 ```
-
-## Visual Studio Code
-
-- Open Visual Studio Code
-- Connect to WSL
-- Open your git repository
-- Run a new WSL terminal from Visual Studio Code
 
 ## Vault
 
@@ -55,7 +48,7 @@ The skeleton of our inventory is:
 │   │   ├── group_vars
 │   │   │   └── all.yml
 │   │   ├── host_vars
-│   │   │   └── azure_vm.yml
+│   │   │   └── vagrant_backend.yml
 │   │   └── hosts
 ```
 
@@ -66,7 +59,7 @@ mkdir -p inventories/dev
 
 cat <<EOF > inventories/dev/host
 [backend]
-azure_vm
+vagrant_backend
 EOF
 ```
 
@@ -77,46 +70,41 @@ mkdir -p inventories/dev/group_vars
 
 cat <<EOF > inventories/dev/group_vars/all.yml
 ansible_connection: winrm
-ansible_winrm_transport: ntlm
-ansible_winrm_scheme: https
-ansible_winrm_port: 22
+ansible_winrm_transport : ntlm
+ansible_winrm_scheme: http
 ansible_winrm_server_cert_validation: ignore
-ansible_shell_type: powershell
 EOF
 ```
 
-Create the file `inventories/dev/host_vars/azure_vm.yml`:
+Create the file `inventories/dev/host_vars/vagrant_backend.yml`:
 
 ```bash
 mkdir -p inventories/dev/host_vars
 
-cat <<EOF > inventories/dev/host_vars/azure_vm.yml
-ansible_host: "changeme"
-ansible_port : 22
-ansible_user: ansible
-ansible_password: changeme
+cat <<EOF > inventories/dev/host_vars/vagrant_backend.yml
+ansible_host: "127.0.0.1"
+ansible_port : 55985
+ansible_user: vagrant
+ansible_password: vagrant
 EOF
 ```
-
-- Replace the value of the variable `ansible_host` by the public ip of the vm created in lab 02.
-- Replace the value of the variable `ansible_password` by the password of the user `ansible` on the vm created in lab 02.
 
 Our inventory is done. But it contains a sensitive data: the value of `ansible_password` is not encrypted.
 
 Let's encrypt the password of the remote user with `ansible-vault`, using the vault password file:
 
 ```bash
-ansible-vault encrypt_string --vault-password-file .vault_pass 'replace by the password of the user ansible'
+ansible-vault encrypt_string --vault-password-file .vault_pass 'vagrant'
 ```
 
-The output of the command contains the encrypted value of the password. Repalce the value of the variable `ansible_password` (in the file `inventories/dev/group_vars/azure_vm.yml`) by the encypted value.
+The output of the command contains the encrypted value of the password. Repalce the value of the variable `ansible_password` (in the file `inventories/dev/group_vars/vagrant_backend.yml`) by the encypted value.
 
-The file `inventories/dev/group_vars/azure_vm.yml` should be similar to:
+The file `inventories/dev/group_vars/vagrant_backend.yml` should be similar to:
 
 ```yml
-ansible_host: "ip of the vm created in lab 02"
-ansible_port : 22
-ansible_user: ansible
+ansible_host: "127.0.0.1"
+ansible_port : 55985
+ansible_user: vagrant
 ansible_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           61383263656531396135323537636239626664626465333063326431396163306162666664616139
@@ -125,8 +113,6 @@ ansible_password: !vault |
           3938346234313264640a646238663438346265303963353831653030623230386139396163313739
           3866
 ```
-
-## Ad-hoc commands
 
 Now let test if our inventory works by running a ping to the windows vm.
 
@@ -139,7 +125,7 @@ ansible --vault-password-file=.vault_pass all -i inventories/dev -m win_ping
 A successful output will be:
 
 ```bash
-azure_vm | SUCCESS => {
+vagrant_backend | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
@@ -149,10 +135,4 @@ You can also run the module `setup` get hosts informations:
 
 ```bash
 ansible --vault-password-file=.vault_pass all -i inventories/dev -m setup
-```
-
-You can also run any command on the remote host using the module `raw`:
-
-```bash
-ansible --vault-password-file=.vault_pass all -i inventories/dev -m raw -a "dir"
 ```

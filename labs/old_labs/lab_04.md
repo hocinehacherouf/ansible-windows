@@ -22,11 +22,6 @@ ansible-galaxy init roles/my-first-role
 3) Your role is empty, but we can run your playbook:
 
 ```bash
-ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev
-```
-Or add `-vvv` to get more details
-
-```bash
 ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev -vvv
 ```
 
@@ -87,7 +82,7 @@ ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev
 
 - Create a directory with path `C:\Temp\MyApp`
 - Create a file with path `C:\Temp\MyApp\Service1.config`
-- Download the image from `https://upload.wikimedia.org/wikipedia/commons/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg` and store it to the path `C:\Temp\MyApp\earthrise.jpg`
+- Download the image from `http://www.example.com/earthrise.jpg` and store it to the path `C:\Temp\MyApp\earthrise.jpg`
 - Find files in the path `C:\Temp\MyApp` and where extension is `.config`
 - Delete file with path `C:\Temp\MyApp\Service1.config`
 - Delete the directory with path `C:\Temp\MyApp`

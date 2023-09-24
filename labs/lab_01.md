@@ -1,33 +1,26 @@
-# Install Ansible on Cygwin
+# Configure Dev environment
 
-> Open an elevated PowerShell terminal (Run as administrator)
+## Requiements
 
-Install Chocolaty:
+- Dedicated Azure resource group
+- WSL2
+- Visual Studio Code + WSL extension
 
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-```
+## Ansible
 
-Install cygwin and cyg-get using Chocolaty:
+> Open a WSL terminal
 
-```powershell
-choco install cygwin cyg-get -y
-```
-
-Install ansible requirements using cyg-get:
-
-```powershell
-cyg-get openssh python38 python38-pip python38-devel libssl-devel libffi-devel gcc-g++ python38-cryptography
-```
-
-> Open Cygwin terminal
-
-Install pip module `whell`, `ansible` and `pywinrm`:
+Check if ansible and pywinrm are installed:
 
 ```bash
-/usr/bin/python3.8.exe -m pip install wheel
-/usr/bin/python3.8.exe -m pip install ansible
-/usr/bin/python3.8.exe -m pip install "pywinrm>=0.3.0"
+pip show ansible pywinrm
+```
+
+If not, install them
+
+```bash
+pip install ansible
+pip install "pywinrm>=0.3.0"
 ```
 
 Check ansible version:

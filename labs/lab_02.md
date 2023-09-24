@@ -1,28 +1,14 @@
-# Configure testing environement by vagrant
+# Configure testing environement (Azure)
 
-> Open an elevated PowerShell terminal (Run as administrator)
+## Goals:
 
-Install virtualbox and vagrant using Chocolaty
+- Create a Windows Server 2022 VM
+- Configure Winrm on the VM (We will use port 22 instead of 5986 for winrm)
 
-```powershell
-choco install virtualbox vagrant -y
-```
+## Instructions
 
-Navigate to `vagrant` folder using your terminal
+> Go to https://portal.azure.com and follow the trainer's instructions
 
-```powershell
-cd vagrant
-```
-
-Run vagrant
-
-```powershell
-vagrant up
-```
-
-Remarks:
-
-- Vagrant will download a virtualbox image of a windows-server with IIS
-- Then it will run it under virtualbox
+## Result
 
 Now you have a windows-server vm ready to be used by ansible :clap:
