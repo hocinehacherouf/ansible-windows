@@ -113,6 +113,20 @@ ansible-galaxy collection install community.windows
 
 8) Add a new task that calls the module `community.windows.win_firewall_rule` to allow the port 8080
 
+Example:
+
+```yml
+- name: Firewall rule to allow HTTP on TCP port 8080
+  community.windows.win_firewall_rule:
+    name: HTTP_8080
+    localport: 8080
+    action: allow
+    direction: in
+    protocol: tcp
+    state: present
+    enabled: true
+```
+
 9) Run your playbook
 
 10) Open the url http://<VM_IP>:8080 on your browser: You will see your new site.
@@ -252,7 +266,7 @@ Example:
 
 2) On defaults/main.yml, add a variable named `teams_webhook_url` with the value of the webhook url generated in the previous step.
 
-3) On the folder handlers in the role `lab05`, add a handler send an http event to a teams webhook to notify an update on the html file `lab05_index.html`:
+3) On the folder handlers in the role `lab05`, add a handler send an http event to a teams webhook to notify an update on the html file `lab05_index.html.j2`:
 
 ```yml
 - name: "Send Teams notification"
@@ -269,7 +283,7 @@ Example:
 ```yml
 - name: Copy index lab05
   ansible.windows.win_template:
-    src: lab05_index.html
+    src: lab05_index.html.j2
     dest: c:\\inetpub\\wwwroot\\lab05\\index.html
   notify: "Send Teams notification"
 ```
