@@ -64,7 +64,7 @@ When IIS is installed, open the ip of your VM: You will see the defaut page of I
 ansible-playbook --vault-password-file=.vault_pass deploy.yml -i inventories/dev -vvv
 ```
 
-6) Open the url http://127.0.0.1:50080 on your browser: You will see the defaut page of IIS has been updated.
+6) Open the url http://<VM_IP> on your browser: You will see the defaut page of IIS has been updated.
 
 ## Deploy an IIS application
 
