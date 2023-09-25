@@ -35,6 +35,20 @@ Check available drivers for molecule
 molecule drivers
 ```
 
+## Install/Upgrade `azure.azcollection`
+
+Install/upgrade to the latest version of Azure collection:
+
+```bash
+ansible-galaxy collection install azure.azcollection --force
+```
+
+Install dependencies required by the collection:
+
+```bash
+pip install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
+```
+
 ## Create new role using Molecule
 
 ```bash
