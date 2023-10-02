@@ -4,6 +4,6 @@
     "serve": "marp -ps deck/"
   },
   "devDependencies": {
-    "@marp-team/marp-cli": "^3.3.0"
+    "@marp-team/marp-cli": "^3.3.1"
   }
 }
