@@ -352,7 +352,7 @@ roles:
 
 collections:
   # Install a role from Ansible Galaxy.
-  - name: install azure.azcollection
+  - name: azure.azcollection
     version: ">=1.14.0" # usage of ranges
   # Install a role from Ansible Galaxy.
   - name: awx.awx
