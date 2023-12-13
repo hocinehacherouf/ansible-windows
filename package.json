@@ -1,7 +1,7 @@
 {
   "scripts": {
     "deck": "marp deck/main.md -o public/index.html",
-    "serve": "marp -ps deck/"
+    "serve": "PORT=3000 marp -s deck/"
   },
   "devDependencies": {
     "@marp-team/marp-cli": "^3.4.0"

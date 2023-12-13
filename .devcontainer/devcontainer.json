@@ -10,9 +10,15 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
+	
+	"waitFor": "onCreateCommand",
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "npm install",
+	
+	"postAttachCommand": {
+	  "server": "npm run serve"
+	},
 	
 	"customizations": {
 		"vscode": {
@@ -21,7 +27,17 @@
 				"marp-team.marp-vscode"
 			]
 		}
-	}
+	},
+
+	
+	"portsAttributes": {
+		"3000": {
+			"label": "Application",
+			"onAutoForward": "openPreview"
+		}
+	},
+
+	"forwardPorts": [3000]
 
 	// Configure tool-specific properties.
 	// "customizations": {},
