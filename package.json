@@ -4,6 +4,6 @@
     "serve": "PORT=3000 marp -s deck/"
   },
   "devDependencies": {
-    "@marp-team/marp-cli": "^4.2.3"
+    "@marp-team/marp-cli": "^4.3.1"
   }
 }
